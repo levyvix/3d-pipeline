@@ -1,0 +1,89 @@
+[0m03:31:47.131073 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f12d671e8d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f12d916e8d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f12d6dd9810>]}
+
+
+============================== 03:31:47.159157 | 9453b75f-bb6e-47b1-a239-0ae5825b22d7 ==============================
+[0m03:31:47.159157 [info ] [MainThread]: Running with dbt=1.9.4
+[0m03:31:47.159844 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'warn_error': 'None', 'fail_fast': 'False', 'debug': 'False', 'log_path': 'logs', 'profiles_dir': '/home/levi/.dbt', 'version_check': 'True', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'empty': 'None', 'log_format': 'default', 'introspect': 'True', 'invocation_command': 'dbt init', 'static_parser': 'True', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'send_anonymous_usage_stats': 'True'}
+[0m03:31:47.199931 [warn ] [MainThread]: [ConfigFolderDirectory]: Unable to parse logging event dictionary. Failed to parse dir field: expected string or bytes-like object, got 'PosixPath'.. Dictionary: {'dir': PosixPath('/home/levi/.dbt')}
+[0m03:31:47.200668 [info ] [MainThread]: Creating dbt configuration folder at 
+[0m03:31:53.071328 [debug] [MainThread]: Starter project path: /home/levi/3d-pipeline/.venv/lib/python3.11/site-packages/dbt/include/starter_project
+[0m03:31:53.075781 [info ] [MainThread]: 
+Your new dbt project "fakestoreapi" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m03:31:53.076164 [info ] [MainThread]: Setting up your profile.
+[0m03:31:54.629039 [info ] [MainThread]: Profile fakestoreapi written to /home/levi/.dbt/profiles.yml using target's sample configuration. Once updated, you'll be able to start developing with dbt.
+[0m03:31:54.629703 [debug] [MainThread]: Resource report: {"command_name": "init", "command_success": true, "command_wall_clock_time": 6.7582583, "process_in_blocks": "6816", "process_kernel_time": 0.334253, "process_mem_max_rss": "125156", "process_out_blocks": "28376", "process_user_time": 1.772556}
+[0m03:31:54.630082 [debug] [MainThread]: Command `dbt init` succeeded at 03:31:54.629997 after 6.76 seconds
+[0m03:31:54.630381 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f12da327050>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f12da3270d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f12da327090>]}
+[0m03:31:54.630704 [debug] [MainThread]: Flushing usage events
+[0m03:31:56.101513 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m03:33:23.172001 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f01e589e110>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f01e62d58d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f01e55ed810>]}
+
+
+============================== 03:33:23.175909 | 77f8bc3f-0a9f-491e-b101-4fb153d57167 ==============================
+[0m03:33:23.175909 [info ] [MainThread]: Running with dbt=1.9.4
+[0m03:33:23.176422 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': '/home/levi/.dbt', 'debug': 'False', 'version_check': 'True', 'log_path': 'logs', 'fail_fast': 'False', 'warn_error': 'None', 'use_colors': 'True', 'use_experimental_parser': 'False', 'empty': 'None', 'quiet': 'False', 'no_print': 'None', 'log_format': 'default', 'introspect': 'True', 'invocation_command': 'dbt debug', 'static_parser': 'True', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'send_anonymous_usage_stats': 'True'}
+[0m03:33:23.195638 [info ] [MainThread]: dbt version: 1.9.4
+[0m03:33:23.196092 [info ] [MainThread]: python version: 3.11.12
+[0m03:33:23.196427 [info ] [MainThread]: python path: /home/levi/3d-pipeline/.venv/bin/python3
+[0m03:33:23.196749 [info ] [MainThread]: os info: Linux-5.15.167.4-microsoft-standard-WSL2-x86_64-with-glibc2.39
+[0m03:33:23.340776 [info ] [MainThread]: Using profiles dir at /home/levi/.dbt
+[0m03:33:23.341223 [info ] [MainThread]: Using profiles.yml file at /home/levi/.dbt/profiles.yml
+[0m03:33:23.341582 [info ] [MainThread]: Using dbt_project.yml file at /home/levi/3d-pipeline/dbt_project/dbt_project.yml
+[0m03:33:23.345410 [info ] [MainThread]: adapter type: duckdb
+[0m03:33:23.345706 [info ] [MainThread]: adapter version: 1.9.3
+[0m03:33:23.346002 [info ] [MainThread]: Configuration:
+[0m03:33:23.346304 [info ] [MainThread]:   profiles.yml file [[32mOK found and valid[0m]
+[0m03:33:23.346615 [info ] [MainThread]:   dbt_project.yml file [[31mERROR not found[0m]
+[0m03:33:23.346887 [info ] [MainThread]: Required dependencies:
+[0m03:33:23.347176 [debug] [MainThread]: Executing "git --help"
+[0m03:33:23.348960 [debug] [MainThread]: STDOUT: "b"usage: git [-v | --version] [-h | --help] [-C <path>] [-c <name>=<value>]\n           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]\n           [-p | --paginate | -P | --no-pager] [--no-replace-objects] [--bare]\n           [--git-dir=<path>] [--work-tree=<path>] [--namespace=<name>]\n           [--config-env=<name>=<envvar>] <command> [<args>]\n\nThese are common Git commands used in various situations:\n\nstart a working area (see also: git help tutorial)\n   clone     Clone a repository into a new directory\n   init      Create an empty Git repository or reinitialize an existing one\n\nwork on the current change (see also: git help everyday)\n   add       Add file contents to the index\n   mv        Move or rename a file, a directory, or a symlink\n   restore   Restore working tree files\n   rm        Remove files from the working tree and from the index\n\nexamine the history and state (see also: git help revisions)\n   bisect    Use binary search to find the commit that introduced a bug\n   diff      Show changes between commits, commit and working tree, etc\n   grep      Print lines matching a pattern\n   log       Show commit logs\n   show      Show various types of objects\n   status    Show the working tree status\n\ngrow, mark and tweak your common history\n   branch    List, create, or delete branches\n   commit    Record changes to the repository\n   merge     Join two or more development histories together\n   rebase    Reapply commits on top of another base tip\n   reset     Reset current HEAD to the specified state\n   switch    Switch branches\n   tag       Create, list, delete or verify a tag object signed with GPG\n\ncollaborate (see also: git help workflows)\n   fetch     Download objects and refs from another repository\n   pull      Fetch from and integrate with another repository or a local branch\n   push      Update remote refs along with associated objects\n\n'git help -a' and 'git help -g' list available subcommands and some\nconcept guides. See 'git help <command>' or 'git help <concept>'\nto read about a specific subcommand or concept.\nSee 'git help git' for an overview of the system.\n""
+[0m03:33:23.349311 [debug] [MainThread]: STDERR: "b''"
+[0m03:33:23.349565 [info ] [MainThread]:  - git [[32mOK found[0m]
+
+[0m03:33:23.349884 [info ] [MainThread]: Connection:
+[0m03:33:23.350184 [info ] [MainThread]:   database: dev
+[0m03:33:23.350462 [info ] [MainThread]:   schema: main
+[0m03:33:23.350736 [info ] [MainThread]:   path: dev.duckdb
+[0m03:33:23.351031 [info ] [MainThread]:   config_options: None
+[0m03:33:23.351299 [info ] [MainThread]:   extensions: None
+[0m03:33:23.351564 [info ] [MainThread]:   settings: {}
+[0m03:33:23.351877 [info ] [MainThread]:   external_root: .
+[0m03:33:23.352142 [info ] [MainThread]:   use_credential_provider: None
+[0m03:33:23.352406 [info ] [MainThread]:   attach: None
+[0m03:33:23.352716 [info ] [MainThread]:   filesystems: None
+[0m03:33:23.353009 [info ] [MainThread]:   remote: None
+[0m03:33:23.353272 [info ] [MainThread]:   plugins: None
+[0m03:33:23.353537 [info ] [MainThread]:   disable_transactions: False
+[0m03:33:23.354023 [info ] [MainThread]: Registered adapter: duckdb=1.9.3
+[0m03:33:23.422818 [debug] [MainThread]: Acquiring new duckdb connection 'debug'
+[0m03:33:23.460719 [debug] [MainThread]: Using duckdb connection "debug"
+[0m03:33:23.461134 [debug] [MainThread]: On debug: select 1 as id
+[0m03:33:23.461423 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m03:33:23.576375 [debug] [MainThread]: SQL status: OK in 0.115 seconds
+[0m03:33:23.577330 [debug] [MainThread]: On debug: Close
+[0m03:33:23.577737 [info ] [MainThread]:   Connection test: [[32mOK connection ok[0m]
+
+[0m03:33:23.578114 [info ] [MainThread]: [31m1 check failed:[0m
+[0m03:33:23.578433 [info ] [MainThread]: Project loading failed for the following reason:
+ project path </home/levi/3d-pipeline/dbt_project/dbt_project.yml> not found
+
+[0m03:33:23.579052 [debug] [MainThread]: Resource report: {"command_name": "debug", "command_success": false, "command_wall_clock_time": 0.45609346, "process_in_blocks": "139392", "process_kernel_time": 0.27683, "process_mem_max_rss": "149576", "process_out_blocks": "440", "process_user_time": 1.275397}
+[0m03:33:23.579482 [debug] [MainThread]: Command `dbt debug` failed at 03:33:23.579358 after 0.46 seconds
+[0m03:33:23.579770 [debug] [MainThread]: Connection 'debug' was properly closed.
+[0m03:33:23.580058 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f01e560f750>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f01e54ef450>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f01e54fc610>]}
+[0m03:33:23.580392 [debug] [MainThread]: Flushing usage events
+[0m03:33:25.984309 [debug] [MainThread]: An error was encountered while trying to flush usage events

@@ -1,0 +1,11 @@
+[project]
+name = "3d-pipeline"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "dbt-core>=1.9.4",
+    "dbt-duckdb>=1.9.3",
+    "dlt[duckdb]>=1.11.0",
+]

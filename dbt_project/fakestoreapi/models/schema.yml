@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: fakestore
+    database: rest_api_fakestore
+    schema: rest_api_data
+    tables:
+      - name: carts
+      - name: carts__products
+      - name: products
+      - name: users
