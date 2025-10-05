@@ -1,0 +1,136 @@
+version: 2
+
+models:
+  - name: stg_products
+    description: "Deduplicated products from source, keeping only the most recent load"
+    columns:
+      - name: product_id
+        description: "Unique product identifier (deduplicated)"
+        data_tests:
+          - unique
+          - not_null
+      - name: product_name
+        description: "Product name/title"
+        data_tests:
+          - not_null
+      - name: product_price
+        description: "Product price in USD"
+        data_tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "> 0"
+      - name: product_category
+        description: "Product category"
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["men''s clothing", "women''s clothing", "jewelery", "electronics"]
+                quote: true
+      - name: product_rating
+        description: "Average customer rating (1-5 scale)"
+        data_tests:
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "BETWEEN 0 AND 5"
+                config:
+                  where: "product_rating IS NOT NULL"
+      - name: product_rating_count
+        description: "Total number of customer ratings"
+        data_tests:
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: ">= 0"
+                config:
+                  where: "product_rating_count IS NOT NULL"
+
+  - name: stg_users
+    description: "Deduplicated users from source, keeping only the most recent load"
+    columns:
+      - name: user_id
+        description: "Unique user identifier (deduplicated)"
+        data_tests:
+          - unique
+          - not_null
+      - name: email
+        description: "User email address"
+        data_tests:
+          - not_null
+          - unique
+      - name: username
+        description: "User's login username (deduplicated)"
+        data_tests:
+          - not_null
+          - unique
+      - name: first_name
+        description: "User's first name"
+      - name: last_name
+        description: "User's last name"
+      - name: phone_number
+        description: "User's phone number"
+      - name: latitude
+        description: "Latitude coordinate of user's address"
+      - name: longitude
+        description: "Longitude coordinate of user's address"
+      - name: city
+        description: "City of user's address"
+      - name: street
+        description: "Street name of user's address"
+      - name: house_number
+        description: "Street number of user's address"
+      - name: zipcode
+        description: "Postal code of user's address"
+
+  - name: stg_carts
+    description: "Deduplicated shopping carts from source, keeping only the most recent load"
+    columns:
+      - name: cart_id
+        description: "Cart identifier (deduplicated)"
+        data_tests:
+          - unique
+          - not_null
+      - name: user_id
+        description: "Reference to user who owns the cart"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_users')
+                field: user_id
+      - name: ordered_at
+        description: "Cart creation/transaction timestamp"
+        data_tests:
+          - not_null
+      - name: dlt_cart_id
+        description: "dlt unique identifier for the cart"
+        data_tests:
+          - unique
+          - not_null
+
+  - name: stg_carts_products
+    description: "Cart line items filtered to include only products from the most recent cart loads"
+    columns:
+      - name: product_id
+        description: "Reference to product in the cart"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_products')
+                field: product_id
+      - name: product_quantity
+        description: "Quantity of the product in the cart"
+        data_tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "> 0"
+      - name: cart_id
+        description: "Reference to parent cart (_dlt_id)"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_carts')
+                field: dlt_cart_id

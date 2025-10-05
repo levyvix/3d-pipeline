@@ -1,0 +1,143 @@
+version: 2
+
+models:
+  - name: dim_products
+    description: "Product dimension table for analytics (denormalized from staging)"
+    columns:
+      - name: product_id
+        description: "Unique product identifier"
+        data_tests:
+          - unique
+          - not_null
+      - name: product_name
+        description: "Product name/title"
+        data_tests:
+          - not_null
+      - name: product_price
+        description: "Product price in USD"
+        data_tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "> 0"
+      - name: product_description
+        description: "Detailed product description"
+      - name: product_category
+        description: "Product category"
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["men''s clothing", "women''s clothing", "jewelery", "electronics"]
+                quote: true
+      - name: product_image_url
+        description: "URL to product image"
+      - name: product_rating
+        description: "Average customer rating (1-5 scale)"
+        data_tests:
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "BETWEEN 0 AND 5"
+                config:
+                  where: "product_rating IS NOT NULL"
+      - name: product_rating_count
+        description: "Total number of customer ratings"
+        data_tests:
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: ">= 0"
+                config:
+                  where: "product_rating_count IS NOT NULL"
+
+  - name: dim_users
+    description: "User dimension table for analytics (denormalized from staging)"
+    columns:
+      - name: user_id
+        description: "Unique user identifier"
+        data_tests:
+          - unique
+          - not_null
+      - name: email
+        description: "User email address"
+        data_tests:
+          - not_null
+          - unique
+      - name: username
+        description: "User's login username"
+        data_tests:
+          - not_null
+          - unique
+      - name: first_name
+        description: "User's first name"
+      - name: last_name
+        description: "User's last name"
+      - name: phone_number
+        description: "User's phone number"
+      - name: latitude
+        description: "Latitude coordinate of user's address"
+      - name: longitude
+        description: "Longitude coordinate of user's address"
+      - name: city
+        description: "City of user's address"
+      - name: street
+        description: "Street name of user's address"
+      - name: house_number
+        description: "Street number of user's address"
+      - name: zipcode
+        description: "Postal code of user's address"
+
+  - name: fct_sales
+    description: "Sales fact table with cart line items and calculated totals"
+    data_tests:
+      # Test that total_price calculation is correct
+      - dbt_utils.expression_is_true:
+          arguments:
+            expression: "ABS(total_price - (product_price * product_quantity)) < 0.01"
+            config:
+              where: "total_price IS NOT NULL AND product_price IS NOT NULL AND product_quantity IS NOT NULL"
+    columns:
+      - name: cart_id
+        description: "Unique cart identifier (from dlt)"
+        data_tests:
+          - not_null
+      - name: user_id
+        description: "Reference to user who made the purchase"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_users')
+                field: user_id
+      - name: product_id
+        description: "Reference to product purchased"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_products')
+                field: product_id
+      - name: ordered_at
+        description: "Transaction timestamp"
+        data_tests:
+          - not_null
+      - name: product_price
+        description: "Price per unit at time of sale"
+        data_tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "> 0"
+      - name: product_quantity
+        description: "Quantity of product purchased"
+        data_tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "> 0"
+      - name: total_price
+        description: "Total price for this line item (price * quantity)"
+        data_tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: "> 0"
