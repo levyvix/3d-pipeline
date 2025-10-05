@@ -1,32 +1,22 @@
-"""
-Main Dagster definitions for the 4D pipeline.
+"""Dagster definitions for the 3D pipeline (dlt → dbt → DuckDB)."""
 
-This module brings together all assets, resources, and schedules.
-"""
-
+from pathlib import Path
 from dagster import Definitions, load_assets_from_modules, define_asset_job, AssetSelection
+from dagster_dbt import DbtCliResource
+from dagster_duckdb import DuckDBResource
+from dagster_embedded_elt.dlt import DagsterDltResource
 from dagster_pipeline.assets import extract, transform
-from dagster_pipeline.resources import get_dbt_resource, get_duckdb_resource
 
-# Load all assets
-all_assets = load_assets_from_modules([extract, transform])
+PIPELINE_ROOT = Path(__file__).parent.parent
+DBT_PROJECT_DIR = PIPELINE_ROOT / "dbt_project" / "fakestoreapi"
+DUCKDB_PATH = PIPELINE_ROOT / "rest_api_fakestore.duckdb"
 
-# Define resources
-resources = {
-    "dbt": get_dbt_resource(),
-    "duckdb": get_duckdb_resource(),
-}
-
-# Define jobs
-fakestore_pipeline_job = define_asset_job(
-    name="fakestore_pipeline",
-    description="Full pipeline: Extract from FakeStore API → Transform with dbt",
-    selection=AssetSelection.all(),
-)
-
-# Create Dagster definitions
 defs = Definitions(
-    assets=all_assets,
-    jobs=[fakestore_pipeline_job],
-    resources=resources,
+    assets=load_assets_from_modules([extract, transform]),
+    jobs=[define_asset_job("fakestore_pipeline", selection=AssetSelection.all())],
+    resources={
+        "dlt": DagsterDltResource(),
+        "duckdb": DuckDBResource(database=str(DUCKDB_PATH)),
+        "dbt": DbtCliResource(project_dir=str(DBT_PROJECT_DIR), target="duck"),
+    },
 )

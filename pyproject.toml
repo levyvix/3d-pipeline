@@ -17,6 +17,7 @@ dependencies = [
     "dagster-webserver>=1.9.0,<2.0.0",
     "dagster-dbt>=0.25.0,<1.0.0",
     "dagster-duckdb>=0.25.0,<1.0.0",
+    "dagster-embedded-elt>=0.25.0,<1.0.0",
 ]
 
 [build-system]
