@@ -14,3 +14,5 @@ fakestoreapi:
     duck:
       type: duckdb
       path: '/home/levi/3d-pipeline/rest_api_fakestore.duckdb'
+      schema: dbt_schema
+      threads: 4

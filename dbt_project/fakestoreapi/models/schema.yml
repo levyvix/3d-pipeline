@@ -111,8 +111,9 @@ sources:
             data_tests:
               - not_null
               - relationships:
-                  to: source('fakestore', 'users')
-                  field: id
+                  arguments:
+                    to: source('fakestore', 'users')
+                    field: id
           - name: date
             description: "Cart creation/transaction date"
             data_tests:
@@ -137,8 +138,9 @@ sources:
             data_tests:
               - not_null
               - relationships:
-                  to: source('fakestore', 'products')
-                  field: id
+                  arguments:
+                    to: source('fakestore', 'products')
+                    field: id
           - name: quantity
             description: "Quantity of the product in the cart"
             data_tests:
@@ -148,8 +150,9 @@ sources:
             data_tests:
               - not_null
               - relationships:
-                  to: source('fakestore', 'carts')
-                  field: _dlt_id
+                  arguments:
+                    to: source('fakestore', 'carts')
+                    field: _dlt_id
           - name: _dlt_list_idx
             description: "Index position of product within the cart's product list"
             data_tests:

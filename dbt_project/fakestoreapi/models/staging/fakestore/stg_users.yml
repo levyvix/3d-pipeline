@@ -1,0 +1,90 @@
+unit_tests:
+  - name: test_stg_users_transformation
+    description: "Test that stg_users correctly renames and restructures user data"
+    model: stg_users
+    given:
+      - input: source('fakestore', 'users')
+        rows:
+          - id: 1
+            email: "john.doe@example.com"
+            username: "johndoe"
+            name__firstname: "John"
+            name__lastname: "Doe"
+            phone: "1-555-0100"
+            address__geolocation__lat: "40.7128"
+            address__geolocation__long: "-74.0060"
+            address__city: "New York"
+            address__street: "Broadway"
+            address__number: 123
+            address__zipcode: "10001"
+          - id: 2
+            email: "jane.smith@example.com"
+            username: "janesmith"
+            name__firstname: "Jane"
+            name__lastname: "Smith"
+            phone: "1-555-0200"
+            address__geolocation__lat: "34.0522"
+            address__geolocation__long: "-118.2437"
+            address__city: "Los Angeles"
+            address__street: "Main St"
+            address__number: 456
+            address__zipcode: "90001"
+    expect:
+      rows:
+        - user_id: 1
+          email: "john.doe@example.com"
+          username: "johndoe"
+          first_name: "John"
+          last_name: "Doe"
+          phone_number: "1-555-0100"
+          latitude: "40.7128"
+          longitude: "-74.0060"
+          city: "New York"
+          street: "Broadway"
+          house_number: 123
+          zipcode: "10001"
+        - user_id: 2
+          email: "jane.smith@example.com"
+          username: "janesmith"
+          first_name: "Jane"
+          last_name: "Smith"
+          phone_number: "1-555-0200"
+          latitude: "34.0522"
+          longitude: "-118.2437"
+          city: "Los Angeles"
+          street: "Main St"
+          house_number: 456
+          zipcode: "90001"
+
+  - name: test_stg_users_handles_missing_address_data
+    description: "Test that stg_users handles users with incomplete address information"
+    model: stg_users
+    given:
+      - input: source('fakestore', 'users')
+        rows:
+          - id: 3
+            email: "test@example.com"
+            username: "testuser"
+            name__firstname: "Test"
+            name__lastname: "User"
+            phone: null
+            address__geolocation__lat: null
+            address__geolocation__long: null
+            address__city: null
+            address__street: null
+            address__number: null
+            address__zipcode: null
+    expect:
+      rows:
+        - user_id: 3
+          email: "test@example.com"
+          username: "testuser"
+          first_name: "Test"
+          last_name: "User"
+          phone_number: null
+          latitude: null
+          longitude: null
+          city: null
+          street: null
+          house_number: null
+          zipcode: null

@@ -146,7 +146,11 @@ Analytics-ready dimension and fact tables:
 
 ## Data Quality Tests
 
-The project includes 96 comprehensive data quality tests:
+The project includes comprehensive data quality tests:
+
+### Data Tests (89 tests)
+
+Traditional dbt tests that run against the database:
 
 - **Source tests** (33): Validate raw data integrity
   - Uniqueness on IDs
@@ -159,15 +163,59 @@ The project includes 96 comprehensive data quality tests:
   - Positive values for prices and quantities
   - Rating bounds (0-5)
 
-- **Mart tests** (23): Business logic validation
+- **Mart tests** (16): Business logic validation
   - Dimensional integrity
   - Fact table calculations (total_price = price � quantity)
   - Foreign key relationships
 
-Run tests:
+### Unit Tests (8 tests)
+
+Fast, isolated tests using mock data (no database required):
+
+- **stg_products** (2 tests):
+  - Column renaming transformation
+  - Null rating handling
+
+- **stg_users** (2 tests):
+  - User data restructuring
+  - Missing address data handling
+
+- **stg_carts_products** (2 tests):
+  - Cart line item mapping
+  - Quantity value handling
+
+- **fct_sales** (2 tests):
+  - Total price calculation logic
+  - Multiple products per cart
+
+### Running Tests
+
 ```bash
 cd dbt_project/fakestoreapi
+
+# Run all tests (data tests + unit tests)
 uv run dbt test
+
+# Run only unit tests (fast, no DB connection needed)
+uv run dbt test --select test_type:unit
+
+# Run only data tests (requires database)
+uv run dbt test --select test_type:data
+
+# Run tests for specific model
+uv run dbt test --select stg_products
+```
+
+### Important Note: Using dbt-core
+
+This project has **dbt-core** installed via `uv`, but you may have **dbt-fusion** installed globally. Always use `uv run dbt` to ensure you're using the correct dbt version from the project environment:
+
+```bash
+# ✅ Correct - uses project's dbt-core
+uv run dbt test
+
+# ❌ May use global dbt-fusion instead
+dbt test
 ```
 
 ## Database Support

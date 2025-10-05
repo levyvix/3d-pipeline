@@ -1,0 +1,128 @@
+unit_tests:
+  - name: test_fct_sales_calculates_total_price
+    description: "Test that fct_sales correctly calculates total price from quantity and unit price"
+    model: fct_sales
+    given:
+      - input: ref('stg_carts')
+        rows:
+          - cart_id: 1
+            user_id: 10
+            ordered_at: "2024-01-15T10:30:00"
+            dlt_cart_id: "cart_abc123"
+          - cart_id: 2
+            user_id: 11
+            ordered_at: "2024-01-16T14:20:00"
+            dlt_cart_id: "cart_def456"
+      - input: ref('stg_products')
+        rows:
+          - product_id: 100
+            product_name: "Laptop"
+            product_price: 999.99
+            product_category: "electronics"
+            product_description: "High-end laptop"
+            product_image_url: "https://example.com/laptop.jpg"
+            product_rating: 4.5
+            product_rating_count: 200
+          - product_id: 101
+            product_name: "Mouse"
+            product_price: 25.00
+            product_category: "electronics"
+            product_description: "Wireless mouse"
+            product_image_url: "https://example.com/mouse.jpg"
+            product_rating: 4.0
+            product_rating_count: 150
+      - input: ref('stg_carts_products')
+        rows:
+          - product_id: 100
+            product_quantity: 2
+            cart_id: "cart_abc123"
+          - product_id: 101
+            product_quantity: 3
+            cart_id: "cart_def456"
+    expect:
+      rows:
+        - cart_id: "cart_abc123"
+          user_id: 10
+          product_id: 100
+          ordered_at: "2024-01-15T10:30:00"
+          product_price: 999.99
+          product_quantity: 2
+          total_price: 1999.98
+        - cart_id: "cart_def456"
+          user_id: 11
+          product_id: 101
+          ordered_at: "2024-01-16T14:20:00"
+          product_price: 25.00
+          product_quantity: 3
+          total_price: 75.00
+
+  - name: test_fct_sales_multiple_products_per_cart
+    description: "Test that fct_sales handles multiple products in a single cart"
+    model: fct_sales
+    given:
+      - input: ref('stg_carts')
+        rows:
+          - cart_id: 5
+            user_id: 20
+            ordered_at: "2024-02-01T09:00:00"
+            dlt_cart_id: "cart_multi"
+      - input: ref('stg_products')
+        rows:
+          - product_id: 200
+            product_name: "Shirt"
+            product_price: 29.99
+            product_category: "men's clothing"
+            product_description: "Cotton shirt"
+            product_image_url: "https://example.com/shirt.jpg"
+            product_rating: 3.5
+            product_rating_count: 80
+          - product_id: 201
+            product_name: "Pants"
+            product_price: 49.99
+            product_category: "men's clothing"
+            product_description: "Denim pants"
+            product_image_url: "https://example.com/pants.jpg"
+            product_rating: 4.2
+            product_rating_count: 120
+          - product_id: 202
+            product_name: "Shoes"
+            product_price: 79.99
+            product_category: "men's clothing"
+            product_description: "Running shoes"
+            product_image_url: "https://example.com/shoes.jpg"
+            product_rating: 4.8
+            product_rating_count: 300
+      - input: ref('stg_carts_products')
+        rows:
+          - product_id: 200
+            product_quantity: 1
+            cart_id: "cart_multi"
+          - product_id: 201
+            product_quantity: 2
+            cart_id: "cart_multi"
+          - product_id: 202
+            product_quantity: 1
+            cart_id: "cart_multi"
+    expect:
+      rows:
+        - cart_id: "cart_multi"
+          user_id: 20
+          product_id: 200
+          ordered_at: "2024-02-01T09:00:00"
+          product_price: 29.99
+          product_quantity: 1
+          total_price: 29.99
+        - cart_id: "cart_multi"
+          user_id: 20
+          product_id: 201
+          ordered_at: "2024-02-01T09:00:00"
+          product_price: 49.99
+          product_quantity: 2
+          total_price: 99.98
+        - cart_id: "cart_multi"
+          user_id: 20
+          product_id: 202
+          ordered_at: "2024-02-01T09:00:00"
+          product_price: 79.99
+          product_quantity: 1
+          total_price: 79.99

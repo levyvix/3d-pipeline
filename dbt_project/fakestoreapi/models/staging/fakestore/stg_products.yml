@@ -1,0 +1,66 @@
+unit_tests:
+  - name: test_stg_products_transformation
+    description: "Test that stg_products correctly renames columns and passes through data"
+    model: stg_products
+    given:
+      - input: source('fakestore', 'products')
+        rows:
+          - id: 1
+            title: "Test Product"
+            price: 29.99
+            description: "A test product description"
+            category: "electronics"
+            image: "https://example.com/image.jpg"
+            rating__rate: 4.5
+            rating__count: 120
+          - id: 2
+            title: "Another Product"
+            price: 15.50
+            description: "Another description"
+            category: "men''s clothing"
+            image: "https://example.com/image2.jpg"
+            rating__rate: 3.8
+            rating__count: 45
+    expect:
+      rows:
+        - product_id: 1
+          product_name: "Test Product"
+          product_price: 29.99
+          product_description: "A test product description"
+          product_category: "electronics"
+          product_image_url: "https://example.com/image.jpg"
+          product_rating: 4.5
+          product_rating_count: 120
+        - product_id: 2
+          product_name: "Another Product"
+          product_price: 15.50
+          product_description: "Another description"
+          product_category: "men''s clothing"
+          product_image_url: "https://example.com/image2.jpg"
+          product_rating: 3.8
+          product_rating_count: 45
+
+  - name: test_stg_products_handles_null_ratings
+    description: "Test that stg_products handles null ratings correctly"
+    model: stg_products
+    given:
+      - input: source('fakestore', 'products')
+        rows:
+          - id: 3
+            title: "Product Without Rating"
+            price: 99.99
+            description: "No ratings yet"
+            category: "jewelery"
+            image: "https://example.com/image3.jpg"
+            rating__rate: null
+            rating__count: null
+    expect:
+      rows:
+        - product_id: 3
+          product_name: "Product Without Rating"
+          product_price: 99.99
+          product_description: "No ratings yet"
+          product_category: "jewelery"
+          product_image_url: "https://example.com/image3.jpg"
+          product_rating: null
+          product_rating_count: null

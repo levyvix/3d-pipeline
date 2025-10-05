@@ -1,0 +1,54 @@
+unit_tests:
+  - name: test_stg_carts_products_transformation
+    description: "Test that stg_carts_products correctly maps cart line items"
+    model: stg_carts_products
+    given:
+      - input: source('fakestore', 'carts__products')
+        rows:
+          - product_id: 1
+            quantity: 2
+            _dlt_parent_id: "cart_abc123"
+          - product_id: 5
+            quantity: 1
+            _dlt_parent_id: "cart_abc123"
+          - product_id: 3
+            quantity: 4
+            _dlt_parent_id: "cart_def456"
+    expect:
+      rows:
+        - product_id: 1
+          product_quantity: 2
+          cart_id: "cart_abc123"
+        - product_id: 5
+          product_quantity: 1
+          cart_id: "cart_abc123"
+        - product_id: 3
+          product_quantity: 4
+          cart_id: "cart_def456"
+
+  - name: test_stg_carts_products_quantity_values
+    description: "Test that various quantity values are handled correctly"
+    model: stg_carts_products
+    given:
+      - input: source('fakestore', 'carts__products')
+        rows:
+          - product_id: 10
+            quantity: 1
+            _dlt_parent_id: "cart_single"
+          - product_id: 20
+            quantity: 10
+            _dlt_parent_id: "cart_bulk"
+          - product_id: 30
+            quantity: 100
+            _dlt_parent_id: "cart_large"
+    expect:
+      rows:
+        - product_id: 10
+          product_quantity: 1
+          cart_id: "cart_single"
+        - product_id: 20
+          product_quantity: 10
+          cart_id: "cart_bulk"
+        - product_id: 30
+          product_quantity: 100
+          cart_id: "cart_large"
