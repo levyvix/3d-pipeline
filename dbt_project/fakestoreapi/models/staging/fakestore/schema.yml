@@ -2,10 +2,10 @@ version: 2
 
 models:
   - name: stg_products
-    description: "Deduplicated products from source, keeping only the most recent load"
+    description: "Products from source with renamed columns"
     columns:
       - name: product_id
-        description: "Unique product identifier (deduplicated)"
+        description: "Unique product identifier"
         data_tests:
           - unique
           - not_null
@@ -46,10 +46,10 @@ models:
                   where: "product_rating_count IS NOT NULL"
 
   - name: stg_users
-    description: "Deduplicated users from source, keeping only the most recent load"
+    description: "Users from source with renamed columns"
     columns:
       - name: user_id
-        description: "Unique user identifier (deduplicated)"
+        description: "Unique user identifier"
         data_tests:
           - unique
           - not_null
@@ -83,10 +83,10 @@ models:
         description: "Postal code of user's address"
 
   - name: stg_carts
-    description: "Deduplicated shopping carts from source, keeping only the most recent load"
+    description: "Shopping carts from source with renamed columns"
     columns:
       - name: cart_id
-        description: "Cart identifier (deduplicated)"
+        description: "Cart identifier"
         data_tests:
           - unique
           - not_null
@@ -109,7 +109,7 @@ models:
           - not_null
 
   - name: stg_carts_products
-    description: "Cart line items filtered to include only products from the most recent cart loads"
+    description: "Cart line items with renamed columns"
     columns:
       - name: product_id
         description: "Reference to product in the cart"

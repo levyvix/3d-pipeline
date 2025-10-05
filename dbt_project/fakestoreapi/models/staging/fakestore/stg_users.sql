@@ -1,27 +1,3 @@
-with source_data as (
-    select
-        id,
-        name__firstname,
-        name__lastname,
-        email,
-        phone,
-        username,
-        address__geolocation__lat,
-        address__geolocation__long,
-        address__city,
-        address__street,
-        address__number,
-        address__zipcode,
-        _dlt_load_id,
-        row_number() over (partition by id order by _dlt_load_id desc) as rn
-    from {{source('fakestore', 'users')}}
-),
-
-deduplicated as (
-    select * from source_data
-    where rn = 1
-)
-
 select
     -- id
     id as user_id,
@@ -41,4 +17,4 @@ select
     address__number as house_number,
     address__zipcode as zipcode
 
-from deduplicated
+from {{source('fakestore', 'users')}}

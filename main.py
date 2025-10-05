@@ -21,5 +21,5 @@ pipeline = dlt.pipeline(
     dataset_name="rest_api_data",
 )
 
-load_info = pipeline.run(source)
+load_info = pipeline.run(source, write_disposition="replace")
 print(load_info)

@@ -4,15 +4,16 @@ sources:
   - name: fakestore
     database: rest_api_fakestore
     schema: rest_api_data
-    description: "Raw data from FakeStore API loaded via dlt"
+    description: "Raw data from FakeStore API loaded via dlt with replace mode"
 
     tables:
       - name: products
         description: "Product catalog with details including pricing, descriptions, and ratings"
         columns:
           - name: id
-            description: "Product identifier (not unique across dlt loads)"
+            description: "Product identifier"
             data_tests:
+              - unique
               - not_null
           - name: title
             description: "Product name/title"
@@ -52,16 +53,18 @@ sources:
         description: "Customer/user information including contact details and addresses"
         columns:
           - name: id
-            description: "User identifier (not unique across dlt loads)"
+            description: "User identifier"
             data_tests:
+              - unique
               - not_null
           - name: email
             description: "User email address"
             data_tests:
               - not_null
           - name: username
-            description: "User's login username (not unique across dlt loads)"
+            description: "User's login username"
             data_tests:
+              - unique
               - not_null
           - name: password
             description: "User password (hashed)"
@@ -99,8 +102,9 @@ sources:
         description: "Shopping cart transactions with user and date information"
         columns:
           - name: id
-            description: "Cart identifier (not unique across dlt loads)"
+            description: "Cart identifier"
             data_tests:
+              - unique
               - not_null
           - name: user_id
             description: "Reference to user who owns the cart"
