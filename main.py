@@ -22,4 +22,4 @@ pipeline = dlt.pipeline(
 )
 
 load_info = pipeline.run(source)
-print(load_info)  # noqa: T201
+print(load_info)

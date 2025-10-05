@@ -4,8 +4,154 @@ sources:
   - name: fakestore
     database: rest_api_fakestore
     schema: rest_api_data
+    description: "Raw data from FakeStore API loaded via dlt"
+
     tables:
-      - name: carts
-      - name: carts__products
       - name: products
+        description: "Product catalog with details including pricing, descriptions, and ratings"
+        columns:
+          - name: id
+            description: "Product identifier (not unique across dlt loads)"
+            data_tests:
+              - not_null
+          - name: title
+            description: "Product name/title"
+            data_tests:
+              - not_null
+          - name: price
+            description: "Product price in USD"
+            data_tests:
+              - not_null
+          - name: description
+            description: "Detailed product description"
+          - name: category
+            description: "Product category"
+            data_tests:
+              - not_null
+              - accepted_values:
+                  arguments:
+                    values: ["men''s clothing", "women''s clothing", "jewelery", "electronics"]
+                    quote: true
+          - name: image
+            description: "URL to product image"
+          - name: rating__rate
+            description: "Average customer rating (1-5 scale)"
+          - name: rating__count
+            description: "Total number of customer ratings"
+          - name: _dlt_load_id
+            description: "dlt pipeline load identifier"
+            data_tests:
+              - not_null
+          - name: _dlt_id
+            description: "dlt record unique identifier"
+            data_tests:
+              - unique
+              - not_null
+
       - name: users
+        description: "Customer/user information including contact details and addresses"
+        columns:
+          - name: id
+            description: "User identifier (not unique across dlt loads)"
+            data_tests:
+              - not_null
+          - name: email
+            description: "User email address"
+            data_tests:
+              - not_null
+          - name: username
+            description: "User's login username (not unique across dlt loads)"
+            data_tests:
+              - not_null
+          - name: password
+            description: "User password (hashed)"
+          - name: name__firstname
+            description: "User's first name"
+          - name: name__lastname
+            description: "User's last name"
+          - name: address__city
+            description: "City of user's address"
+          - name: address__street
+            description: "Street name of user's address"
+          - name: address__number
+            description: "Street number of user's address"
+          - name: address__zipcode
+            description: "Postal code of user's address"
+          - name: address__geolocation__lat
+            description: "Latitude coordinate of user's address"
+          - name: address__geolocation__long
+            description: "Longitude coordinate of user's address"
+          - name: phone
+            description: "User's phone number"
+          - name: v
+            description: "API version field"
+          - name: _dlt_load_id
+            description: "dlt pipeline load identifier"
+            data_tests:
+              - not_null
+          - name: _dlt_id
+            description: "dlt record unique identifier"
+            data_tests:
+              - unique
+              - not_null
+
+      - name: carts
+        description: "Shopping cart transactions with user and date information"
+        columns:
+          - name: id
+            description: "Cart identifier (not unique across dlt loads)"
+            data_tests:
+              - not_null
+          - name: user_id
+            description: "Reference to user who owns the cart"
+            data_tests:
+              - not_null
+              - relationships:
+                  to: source('fakestore', 'users')
+                  field: id
+          - name: date
+            description: "Cart creation/transaction date"
+            data_tests:
+              - not_null
+          - name: v
+            description: "API version field"
+          - name: _dlt_load_id
+            description: "dlt pipeline load identifier"
+            data_tests:
+              - not_null
+          - name: _dlt_id
+            description: "dlt record unique identifier"
+            data_tests:
+              - unique
+              - not_null
+
+      - name: carts__products
+        description: "Line items linking products to carts with quantities (many-to-many junction table)"
+        columns:
+          - name: product_id
+            description: "Reference to product in the cart"
+            data_tests:
+              - not_null
+              - relationships:
+                  to: source('fakestore', 'products')
+                  field: id
+          - name: quantity
+            description: "Quantity of the product in the cart"
+            data_tests:
+              - not_null
+          - name: _dlt_parent_id
+            description: "Reference to parent cart record (_dlt_id from carts table)"
+            data_tests:
+              - not_null
+              - relationships:
+                  to: source('fakestore', 'carts')
+                  field: _dlt_id
+          - name: _dlt_list_idx
+            description: "Index position of product within the cart's product list"
+            data_tests:
+              - not_null
+          - name: _dlt_id
+            description: "dlt record unique identifier"
+            data_tests:
+              - unique
+              - not_null

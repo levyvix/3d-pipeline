@@ -1,0 +1,16 @@
+fakestoreapi:
+  target: duck
+  outputs:
+    dev:
+      type: postgres
+      host: localhost
+      user: loader
+      password: '123'
+      port: 5432
+      dbname: dlt_data
+      schema: dbt_schema
+      threads: 4
+      keepalives_idle: 0
+    duck:
+      type: duckdb
+      path: '/home/levi/3d-pipeline/rest_api_fakestore.duckdb'
