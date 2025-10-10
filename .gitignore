@@ -222,3 +222,4 @@ __marimo__/
 rest_api_pipeline.py
 .dlt/secrets.toml
 logs/*
+rest_api_fakestore.duckdb
