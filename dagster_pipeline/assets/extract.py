@@ -3,7 +3,11 @@
 import dlt
 from dlt.sources.rest_api import rest_api_source
 from dagster import AssetExecutionContext, AssetKey
-from dagster_embedded_elt.dlt import DagsterDltResource, DagsterDltTranslator, dlt_assets
+from dagster_embedded_elt.dlt import (
+    DagsterDltResource,
+    DagsterDltTranslator,
+    dlt_assets,
+)
 
 
 class FakestoreDltTranslator(DagsterDltTranslator):
@@ -15,10 +19,15 @@ class FakestoreDltTranslator(DagsterDltTranslator):
 
 
 @dlt_assets(
-    dlt_source=rest_api_source({
-        "client": {"base_url": "https://fakestoreapi.com"},
-        "resources": ["products", "carts", "users"],
-    }),
+    dlt_source=rest_api_source(
+        {
+            "client": {"base_url": "https://fakestoreapi.com"},
+            "resource_defaults": {
+                "write_disposition": "replace",
+            },
+            "resources": ["products", "carts", "users"],
+        }
+    ),
     dlt_pipeline=dlt.pipeline(
         pipeline_name="rest_api_fakestore",
         destination="duckdb",
